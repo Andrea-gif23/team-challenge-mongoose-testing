@@ -1,18 +1,25 @@
-// index.js
 const express = require('express');
-const dotenv = require('dotenv');
-const connectDB = require('./config/config');
-const postRoutes = require('./routes/posts');
-
-dotenv.config();
-connectDB();
+const conectarDB = require('./config/config');
+const postsRoutes = require('./routes/posts');
+require('dotenv').config();
 
 const app = express();
-app.use(express.json()); // Para poder leer los datos JSON enviados en el cuerpo de la solicitud
+app.use(express.json()); 
 
-app.use('/api/posts', postRoutes);
+
+conectarDB();
+
+
+app.use('/posts', postsRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
+
+if (require.main === module) {
+    app.listen(5000, () => {
+      console.log("Servidor corriendo en el puerto 5000");
+    });
+  }
+  
+  module.exports = app;  
+  
